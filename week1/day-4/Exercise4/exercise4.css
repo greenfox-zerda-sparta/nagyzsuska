@@ -1,0 +1,33 @@
+body {
+  margin-left: 40px;
+  margin-top: 25px;
+  color: #333333;
+  font-family: 'Ariel', serif;
+}
+
+h1,
+h2 {
+  text-align: left;;
+  color: green;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+.color1 {
+  color: red;
+}
+
+.color2 {
+  color: blue;
+}
+
+pre {
+  font-family: 'Leelawadee', sans-serif;
+  font-size: 14px;
+}
