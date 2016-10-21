@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  color: #333333;
+  font-family: 'Ariel', serif;
+}
+
+img {
+  width: 100%;
+}
+
+article {
+  max-width: 668px;
+  margin-left: auto;
+  margin-right: auto;
+  margin: 0 auto; /*aló felső 0, bal-jobb auto*/
+}
+
+.first p {
+  font-size: 22px;
+}
+
+h1 {
+  font-variant: small-caps;
+  font-size: 40px;
+  margin-bottom: 10;
+  margin-top: 10;
+}
+
+h2 {
+  font-size: 27px;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+h3 {
+  font-size: 20px;
+  font-style: italic;
+  margin-top: 0;
+}
+
+p {
+  font-size: 18px;
+  line-height: 33px;
+}
+
+ul {
+  font-size: 18px;
+  line-height: 33px;
+  list-style-type: square;
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+ margin-left: 40px;
+ margin-right: 40px;
+}
+
+.box {
+  background-color: grey;
+  padding: 20px;
+}
+
+.line {
+  border-bottom: 2px solid black;
+}
