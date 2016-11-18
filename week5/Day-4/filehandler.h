@@ -8,7 +8,7 @@ public:
   MyFileHandler();
   ~MyFileHandler();
   MyErrorHandler *m_errorhandler;
-  int count_the_lines(std::string file_name);
+  int get_count_of_lines(std::string file_name);
   void print_file(std::string file_name);
   void add(std::string file_name, std::string param);
   void remove_from_file(std::string file_name, int a);
@@ -16,4 +16,3 @@ public:
 };
 
 #endif /* FILEHANDLER_H_ */
-

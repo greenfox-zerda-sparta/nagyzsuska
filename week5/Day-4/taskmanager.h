@@ -1,4 +1,3 @@
-
 #ifndef TASKMANAGER_H_
 #define TASKMANAGER_H_
 
@@ -17,8 +16,9 @@ class Todo {
   void remove();
   void check_task();
 public:
-  Todo(std::string file_name);
+  Todo(int argc, char* argv[], std::string file_name);
   ~Todo();
+  void run(int argc, char** argv);
   void print_usage();
   void set_command(std::string command) { m_command = command; }
   void set_param(std::string param) { m_param = param; }

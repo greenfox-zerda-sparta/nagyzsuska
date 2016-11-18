@@ -10,7 +10,7 @@ MyFileHandler::~MyFileHandler() {
   delete m_errorhandler;
 }
 
-int MyFileHandler::count_the_lines(std::string file_name) { //get_count_of_line
+int MyFileHandler::get_count_of_lines(std::string file_name) {
   std::ifstream file(file_name);
   std::string line;
   int i = 0;
@@ -25,7 +25,7 @@ void MyFileHandler::print_file(std::string file_name) {
   std::ifstream file(file_name);
   std::string line = "";
   int i = 1;
-  if (count_the_lines(file_name) == 0) {
+  if (get_count_of_lines(file_name) == 0) {
     m_errorhandler->print_error("No todos for today! :)");
   }
   else {
@@ -47,15 +47,18 @@ void MyFileHandler::add(std::string file_name, std::string param) {
 void MyFileHandler::remove_from_file(std::string file_name, int a) {
   std::ifstream file(file_name);
   std::string line;
-  int j = 0;
+  std::string temp;
+  int i = 0;
   while (getline(file, line)) {
-    j++;
-    if (j != a) {
-      line += line + '\n';
+    i++;
+    if (i == a) {
+    }
+    else {
+      temp += line + '\n';
     }
   }
   std::ofstream fileout(file_name);
-  fileout << line;
+  fileout << temp;
   file.close();
   fileout.close();
 }
