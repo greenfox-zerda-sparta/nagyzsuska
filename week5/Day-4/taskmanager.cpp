@@ -3,20 +3,10 @@
 #include "filehandler.h"
 #include <iostream>
 
-Todo::Todo(int argc, char* argv[], std::string file_name) {
+Todo::Todo(std::string file_name) {
   m_filename = file_name;
   m_errorhandler = new MyErrorHandler();
   m_filehandler = new MyFileHandler();
-  switch (argc) {
-  case 3:
-    set_param(argv[2]);
-  case 2:
-    set_command(argv[1]);
-    break;
-  default:
-    break;
-  }
-  doTask();
 }
 
 Todo::~Todo() {
@@ -57,21 +47,14 @@ void Todo::add() {
 void Todo::remove() {
   if (m_param == "") {
     m_errorhandler->print_error("Unable to remove : No index is provided");
-  }
-  else {
-    if (m_errorhandler->has_only_digit(m_param))
-    {
-      int a = atoi(m_param.c_str());
-      if (!m_errorhandler->index_is_out_of_bound(a, m_filehandler->get_count_of_lines(m_filename)))
-      {
-        m_filehandler->remove_from_file(m_filename, a);
-      }
-    }
+  } else if (m_errorhandler->check_param(m_param, m_filehandler->get_count_of_lines(m_filename))) {
+    int a = atoi(m_param.c_str());
+    m_filehandler->remove_from_file(m_filename, a);
   }
 }
+  
 
-void Todo::doTask()
-{
+void Todo::doTask() {
   if (m_command == "-l") {
     list();
   }

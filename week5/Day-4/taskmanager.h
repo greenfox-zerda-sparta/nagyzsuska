@@ -15,8 +15,9 @@ class Todo {
   void add();
   void remove();
   void check_task();
+ 
 public:
-  Todo(int argc, char* argv[], std::string file_name);
+  Todo(std::string file_name);
   ~Todo();
   void run(int argc, char** argv);
   void print_usage();
