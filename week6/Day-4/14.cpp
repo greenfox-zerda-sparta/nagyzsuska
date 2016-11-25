@@ -20,17 +20,29 @@ public:
   }
 };
 
-string platenumber_generator() {
+bool platenumber_checker(vector<vector<vector<Car> > > &vec, string platenumber) {
+  for (unsigned int i = 0; i < vec.size(); i++) {
+    for (unsigned int j = 0; j < vec[i].size(); j++) {
+      for (unsigned int k = 0; k < vec[i][j].size(); k++) {
+        return (vec[i][j][k].m_platenumber == platenumber);
+      }
+    }
+  }
+}
+
+string platenumber_generator(vector<vector<vector<Car> > > &vec) {
   const string str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const string num = "0123456789";
   string platenumber = "";
-  for (unsigned int i = 0; i < 3; i++) {
-    platenumber += str[rand() % 26];
-  }
-  platenumber += " - ";
-  for (unsigned int i = 0; i < 3; i++) {
-    platenumber += num[rand() % 10];
-  }
+  do {
+    for (unsigned int i = 0; i < 3; i++) {
+      platenumber += str[rand() % 26];
+    }
+    platenumber += " - ";
+    for (unsigned int i = 0; i < 3; i++) {
+      platenumber += num[rand() % 10];
+    }
+  } while (platenumber_checker(vec, platenumber));
   return platenumber;
 }
  
@@ -40,7 +52,7 @@ void fill_with_Cars(vector<vector<vector<Car> > > &vec, vector<string> &car_type
       for (unsigned int k = 0; k < vec[i][j].size(); k++) {
         string name_of_type = car_types[rand() % 18];
         string color = colors[rand() % 8];
-        string platenumber = platenumber_generator();
+        string platenumber = platenumber_generator(vec);
         vec[i][j][k] = Car(name_of_type, color, platenumber);
       }
     }
@@ -91,7 +103,8 @@ int main() {
   print_Cars(vec);
   find_Cars(vec);
   cout << "My car: " << vec[0][0][0].m_name_of_car << " " << vec[0][0][0].m_color_of_car << " " << vec[0][0][0].m_platenumber << endl;
-  cout << platenumber_generator() << endl;
+  vec.clear();
+  print_Cars(vec);
   
   //Make sure there are no duplicates in car plates!
   //Print out how much "Sárga"-"Zsiguli" we have, with their position and platenumber in the parking house!
