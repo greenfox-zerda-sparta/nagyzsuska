@@ -1,7 +1,7 @@
 #ifndef CHECKER_
 #define CHECKER_
 
-#include <string>
+#include "Run.h"
 
 class Checker {
 public:
@@ -10,4 +10,3 @@ public:
 };
 
 #endif // !CHECKER_
-

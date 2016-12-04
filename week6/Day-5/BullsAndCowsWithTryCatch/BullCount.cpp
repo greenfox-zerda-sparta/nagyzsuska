@@ -12,5 +12,4 @@ void BullCount::count(std::string input) {
 }
 
 BullCount::~BullCount() {
-
 }

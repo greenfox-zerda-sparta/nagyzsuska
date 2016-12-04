@@ -13,4 +13,3 @@ public:
 };
 
 #endif // !MY_ERROR_MESSAGES_
-

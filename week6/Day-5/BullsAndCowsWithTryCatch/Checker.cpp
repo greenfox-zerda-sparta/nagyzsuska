@@ -1,6 +1,4 @@
 #include "Checker.h"
-#include "Run.h"
-#include "MyErrorMessages.h"
 
 void Checker::check_digit(std::string input) throw (MyErrorMessages::Messages) {
   for (size_t n = 0; n < DIGIT_SIZE; n++)

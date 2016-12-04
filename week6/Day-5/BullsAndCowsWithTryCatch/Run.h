@@ -3,7 +3,11 @@
 
 #include "BullCount.h"
 #include "CowCount.h"
-#include "DigitsGenerator.h"
+#include "MyErrorMessages.h"
+#include "Checker.h"
+#include "Try.h"
+#include <iostream>
+#include <time.h>
 
 class Run {
 private:
@@ -14,9 +18,7 @@ private:
 public:
   Run();
   void run();
-  void try_catch_block();
   ~Run();
 };
 
 #endif // !RUN_
-
