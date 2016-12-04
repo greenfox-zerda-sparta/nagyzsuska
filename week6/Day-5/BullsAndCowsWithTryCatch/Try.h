@@ -4,9 +4,10 @@
 #include "Run.h"
 
 class Try {
+private:
+  std::string m_input;
 public:
  Try() {};
- std::string m_input;
  std::string try_catch_block();
  ~Try() {};
 };

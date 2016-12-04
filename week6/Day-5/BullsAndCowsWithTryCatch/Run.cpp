@@ -9,7 +9,6 @@ Run::Run() {
 
 void Run::run() {
   Try *t = new Try();
-  std::cout << m_digit_generator->get_digits();
   for (int i = 1; i <= 10; i++) {
     m_bulls->set_count(0);
     m_cows->set_count(0);
@@ -17,7 +16,6 @@ void Run::run() {
     m_input = t->try_catch_block();
     m_bulls->count(m_input);
     m_cows->count(m_input);
-    std::cout << "It was your " << i << ". round." << std::endl;
     std::cout << "Bulls: " << m_bulls->get_count() << ", Cows: " << m_cows->get_count() << std::endl;
     if (m_bulls->get_count() == DIGIT_SIZE) {
       std::cout << "Congratulations: You win!" << std::endl;
