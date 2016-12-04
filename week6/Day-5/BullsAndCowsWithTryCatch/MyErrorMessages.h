@@ -3,7 +3,7 @@
 
 #include <string>
 
-static class MyErrorMessages {
+class MyErrorMessages {
 public:
   enum Messages {
     TOO_FEW_OR_MANY,

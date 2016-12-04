@@ -2,7 +2,6 @@
 #define COUNT_
 
 #include "DigitsGenerator.h"
-#include <string>
 
 class Count {
 protected:

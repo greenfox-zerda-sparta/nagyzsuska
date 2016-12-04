@@ -14,9 +14,7 @@ private:
 public:
   Run();
   void run();
-  void try_catch();
-  bool isDigit();
-  void check_input();
+  void try_catch_block();
   ~Run();
 };
 
