@@ -10,6 +10,20 @@ Run::Run() {
   m_cows = new CowCount(m_digit_generator->get_digits());
 }
 
+void Run::try_catch() {
+  bool isOk = false;
+  while (!isOk) {
+    try {
+      std::cin >> m_input;
+      check_input();
+      isOk = true;
+    }
+    catch (MyErrorMessages::Messages x) {
+      std::cout << MyErrorMessages::interpretException(x);
+    }
+  }
+}
+
 bool Run::isDigit() throw (MyErrorMessages::Messages) {
   for (size_t n = 0; n < DIGIT_SIZE; n++)
   {
@@ -37,18 +51,8 @@ void Run::run() {
       
     std::cout << "Give a four digits number: " << std::endl;
 
-    bool isOk = false;
-    while (!isOk) {
-      try {
-        std::cin >> m_input;
-        check_input();
-        isOk = true;
-      }
-      catch (MyErrorMessages::Messages x) {
-        std::cout << MyErrorMessages::interpretException(x);
-      }
-    }
-      
+    try_catch();
+
     m_bulls->count(m_input);
     m_cows->count(m_input);
 
