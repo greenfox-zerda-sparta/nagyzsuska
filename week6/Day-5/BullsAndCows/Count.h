@@ -2,12 +2,12 @@
 #define COUNT_
 
 #include "DigitsGenerator.h"
-#include <string>
 
 class Count {
 protected:
   int m_count;
   std::string m_digits;
+  Count() {};
   Count(std::string digits);
 public:
   int get_count();
@@ -17,4 +17,3 @@ public:
 };
 
 #endif // !COUNT_
-

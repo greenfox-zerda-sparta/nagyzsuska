@@ -1,7 +1,5 @@
 #include "Run.h"
 
-using namespace std;
-
 int main() {
   Run *game = new Run();
   game->run();

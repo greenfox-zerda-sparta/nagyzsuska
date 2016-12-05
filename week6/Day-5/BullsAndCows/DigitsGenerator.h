@@ -3,7 +3,7 @@
 
 #include <string>
 
-const std::string STRING_NUMBERS = "123456789";
+const std::string STRING_NUMBERS = "0123456789";
 const int DIGIT_SIZE = 4;
 
 class DigitsGenerator {
@@ -16,4 +16,3 @@ public:
 };
 
 #endif // !DIGITS_GENERATOR_
-

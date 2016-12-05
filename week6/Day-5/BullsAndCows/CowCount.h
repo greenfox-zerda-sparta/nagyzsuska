@@ -11,4 +11,3 @@ public:
 };
 
 #endif // !COW_COUNTER_
-

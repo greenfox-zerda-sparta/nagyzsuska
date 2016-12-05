@@ -3,8 +3,6 @@
 
 #include "BullCount.h"
 #include "CowCount.h"
-#include "MyErrorMessages.h"
-#include "Checker.h"
 #include "Try.h"
 #include <iostream>
 #include <time.h>

@@ -1,5 +1,4 @@
 #include "DigitsGenerator.h"
-#include <stdlib.h>
 
 DigitsGenerator::DigitsGenerator() {
   for (int i = 0; i < DIGIT_SIZE; i++) {
@@ -12,5 +11,4 @@ std::string DigitsGenerator::get_digits() {
 }
 
 DigitsGenerator::~DigitsGenerator() {
-
 }
