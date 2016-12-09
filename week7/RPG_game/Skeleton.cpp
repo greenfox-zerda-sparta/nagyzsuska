@@ -1,7 +1,9 @@
 #include "Skeleton.h"
 //#include "Boss.h"
+#include <iostream>
 
-Skeleton::Skeleton(Map* map) : Character (map) {
+Skeleton::Skeleton(Map* map, Boss* boss) : Character (map) {
+  m_boss = boss;
   m_image = "skeleton.bmp";
   set_skeleton();
 }
@@ -15,7 +17,7 @@ void Skeleton::set_skeleton() {
       y = rand() % 10;
       m_skeleton_x[i] = x * 72;
       m_skeleton_y[i] = y * 72;
-    } while (m_map->get_map_vector()[x][y] != 1 && m_skeleton_x[i] != m_x && m_skeleton_y[i] != m_y);
+    } while (m_map->get_map_vector()[x][y] != 1 && m_skeleton_x[i] != m_boss->get_boss_x() && m_skeleton_y[i] != m_boss->get_boss_y());
   }
 }
 

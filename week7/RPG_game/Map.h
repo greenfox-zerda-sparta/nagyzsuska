@@ -16,6 +16,7 @@ public:
   std::string get_wall();
   void fill_map_vector();
   std::vector<std::vector<int>> get_map_vector();
+  void set_map_vector(int i, int j, int character_sign);
   bool check_walls_case_right_and_set_location(int &m_x, int &m_y);
   bool check_walls_case_left_and_set_location(int &m_x, int &m_y);
   bool check_walls_case_up_and_set_location(int &m_x, int &m_y);

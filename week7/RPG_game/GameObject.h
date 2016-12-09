@@ -6,9 +6,9 @@
 
 class GameObject {
 protected:
-  std::string m_image;
   int m_x = 0;
   int m_y = 0;
+  std::string m_image;
 public:
   std::string get_image();
   virtual void draw(GameContext& context) = 0;

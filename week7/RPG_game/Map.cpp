@@ -32,13 +32,17 @@ std::vector<std::vector<int>> Map::get_map_vector() {
   return m_map_vector;
 }
 
+void Map::set_map_vector(int i, int j, int character_sign) {
+  m_map_vector[i][j] = character_sign;
+}
+
 void Map::draw(GameContext& context) {
   for (int i = 0; i < m_map_vector.size(); i++) {
     for (int j = 0; j < m_map_vector[i].size(); j++) {
       if (m_map_vector[i][j] == 1) {
         context.draw_sprite(m_floor, i * 72, j * 72);
       }
-      else {
+      else if (m_map_vector[i][j] == 0) {
         context.draw_sprite(m_wall, i * 72, j * 72);
       }
     }

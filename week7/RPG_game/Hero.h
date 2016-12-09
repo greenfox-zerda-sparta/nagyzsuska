@@ -12,6 +12,7 @@ private:
   std::string m_hero_right;
 public:
   Hero(Map* map);
+  void move(GameContext& context);
   void set_image(std::string image);
   std::string get_hero_down();
   std::string get_hero_up();
