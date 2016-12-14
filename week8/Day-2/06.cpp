@@ -44,11 +44,6 @@ string get_lines_from_file_in_lower_case() {
 
 map<string, int> put_words_to_map(string result) {
   map <string, int> my_map;
-  for (int i = 0; i < result.length(); i++) {
-    if (result[i] == ' ' && result[i - 1] == '\'' || result[i + 1] == '\'') {
-      result[i - 1] = ' ';
-    }
-  }
   char* writable = new char[result.size() + 1];
   std::copy(result.begin(), result.end(), writable);
   writable[result.size()] = '\0';
@@ -88,7 +83,7 @@ bool write_the_map_to_a_file(map<string, int> my_map) {
   }
   alice << "Word\t\tCount\n=======================\n";
   for (map<string, int>::iterator iter = my_map.begin(); iter != my_map.end(); ++iter) {
-    alice << iter->first << "\t\t" << iter->second;
+    alice << iter->first << "\t" << iter->second;
     alice << "\n";
   }
   return true;
@@ -97,10 +92,9 @@ bool write_the_map_to_a_file(map<string, int> my_map) {
 int main() {
   string result = get_lines_from_file_in_lower_case();
   map<string, int> my_map = put_words_to_map(result);
-  cout << "Sum of words: " << get_sum_of_words(my_map);
-  cout << "Longest word: " << get_longest_word(my_map);
+  cout << "Sum of words: " << get_sum_of_words(my_map) << endl;
+  cout << "Longest word: " << get_longest_word(my_map) << endl;
   cout << "alice => " << my_map.find("alice")->second << endl;
   write_the_map_to_a_file(my_map);
-  //system("pause");
   return 0;
 }
