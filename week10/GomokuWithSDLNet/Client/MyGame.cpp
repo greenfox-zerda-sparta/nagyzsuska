@@ -85,8 +85,8 @@ int MyGame::get_winner(GameContext& context) {
           return board_vector[i][j];
         }
       }
-    }
-  }
+    } 
+  } 
   return 0;
 }
 
@@ -100,5 +100,5 @@ void MyGame::render(GameContext& context) {
 }
 
 MyGame::~MyGame() {
-
+ 
 }

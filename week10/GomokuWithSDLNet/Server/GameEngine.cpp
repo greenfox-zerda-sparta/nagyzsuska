@@ -12,6 +12,9 @@ GameEngine::GameEngine(Game* g, unsigned int screen_width, unsigned int screen_h
   server = SDLNet_TCP_Open(&ip);
   SDLNet_TCP_AddSocket(set, server);
   mouseclick = 0;
+  quit = false;
+  gameover = 0;
+  who_begins = 0;
 }
 
 GameEngine::~GameEngine() {
@@ -37,7 +40,7 @@ void GameEngine::make_coordinats_from_text(std::string text) {
   std::string coordinat2 = "";
   int j = 0;
   for (int i = 0; i < 100; i++) {
-    if (text[i] == ' ') {
+    if (text[i] == ',') {
       j++;
       break;
     }
@@ -45,7 +48,7 @@ void GameEngine::make_coordinats_from_text(std::string text) {
     j++;
   }
   for (int i = j; i < 100; i++) {
-    if (text[i] == ' ') {
+    if (text[i] == '\0') {
       break;
     }
     coordinat2 += text[i];
@@ -64,94 +67,133 @@ void GameEngine::get_coordinats_from_client_and_set_them() {
 }
 
 void GameEngine::send_coordinats_to_clients(int x, int y) {
-  std::string coordinats_in_string = (std::to_string(x / WIDTH) + "," + std::to_string(y / HEIGHT) + ",");
+  std::string coordinats_in_string = (std::to_string(x / WIDTH) + "," + std::to_string(y / HEIGHT));
   send_coordinats = coordinats_in_string.c_str();
   SDLNet_TCP_Send(client, send_coordinats, strlen(send_coordinats) + 1);
 }
 
 void GameEngine::set_board_and_send_coordinats(int x, int y) {
-  key = 1;
-  game->set_board(x / WIDTH, y / HEIGHT, key);
+  game->set_board(x / WIDTH, y / HEIGHT, key_server);
   game->create_board(*context);
   send_coordinats_to_clients(x, y);
 }
 
-void GameEngine::run() {
+void GameEngine::run2() {
   SDL_Event event;
   int gameover = 0;
-  const char* send_text = "HELLO CLIENT!\n";
-  game->render(*context);
- 
   while (!gameover) {
-    client = SDLNet_TCP_Accept(server);
-    if (client) {
-      SDLNet_TCP_AddSocket(set, client);
-      //SDLNet_TCP_Send(client, send_text, strlen(send_text) + 1);
-      while (!gameover) {
-        if (SDL_PollEvent(&event)) {
-          switch (event.type) {
-          case SDL_QUIT:
-            gameover = 1;
-            break;
-          case SDL_KEYDOWN:
-            switch (event.key.keysym.sym) {
-            case SDLK_ESCAPE:
-            case SDLK_q:
-              gameover = 1;
-              break;
-            }
-          case SDL_MOUSEBUTTONDOWN:
-            if (event.button.button == SDL_BUTTON_LEFT) {
-              mouseclick++;
-              if (mouseclick == 1) {
-                SDL_GetMouseState(&x, &y);
-                if (game->check_if_field_is_empty(x / WIDTH, y / HEIGHT)) {
-                  set_board_and_send_coordinats(x, y);
-                  if (isGameOver()) {
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "GameOver", "Congratulation, you won.\nPress 'y', if you would like to play again, press 'q' or 'Esc' to quit.", context->get_screen());
-                    gameover = 1;
-                    bool acceptedDefeath = false;
-                    while (!acceptedDefeath) {
-                      if (SDL_PollEvent(&event)) {
-                        switch (event.type) {
-                        case SDL_KEYDOWN:
-                          switch (event.key.keysym.sym) {
-                          case SDLK_ESCAPE:
-                          case SDLK_q:
-                            acceptedDefeath = 1;
-                            break;
-                          case SDLK_y:
-                            game->set_vector_to_null();
-                            gameover = 0;
-                            run();
-                            break;
-                          }
-                        }
+    if (SDL_PollEvent(&event)) {
+      switch (event.type) {
+      case SDL_QUIT:
+        gameover = 1;
+        break;
+      case SDL_KEYDOWN:
+        switch (event.key.keysym.sym) {
+        case SDLK_ESCAPE:
+        case SDLK_q:
+          gameover = 1;
+          break;
+        }
+      case SDL_MOUSEBUTTONDOWN:
+        if (event.button.button == SDL_BUTTON_LEFT) {
+          mouseclick++;
+          who_begins++;
+          if (who_begins == 1) {
+            key_server = 1;
+            key_client = 2;
+          }
+          if (mouseclick == 1) {
+            SDL_GetMouseState(&x, &y);
+            if (game->check_if_field_is_empty(x / WIDTH, y / HEIGHT)) {
+              set_board_and_send_coordinats(x, y);
+              if (isGameOver()) {
+                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "GameOver", "Congratulation, you won.\nPress 'y', if you would like to play again, press 'q' or 'Esc' to quit.", context->get_screen());
+                gameover = 1;
+                quit = true;
+                bool acceptedDefeath = false;
+                while (!acceptedDefeath) {
+                  if (SDL_PollEvent(&event)) {
+                    switch (event.type) {
+                    case SDL_KEYDOWN:
+                      switch (event.key.keysym.sym) {
+                      case SDLK_ESCAPE:
+                      case SDLK_q:
+                        acceptedDefeath = 1;
+                        break;
+                      case SDLK_y:
+                        game->set_vector_to_null();
+                        gameover = 0;
+                        mouseclick = 0;
+                        who_begins = 0;
+                        quit = false;
+                        run2();
+                        break;
                       }
                     }
                   }
                 }
-                else {
-                  mouseclick = 0;
-                }
               }
+            }
+            else {
+              mouseclick = 0;
             }
           }
         }
-        int activeSockets = SDLNet_CheckSockets(set, 10);
-        //std::cout << activeSockets << "activesocket" << std::endl;
-        if (activeSockets != 0) {
-          int gotMessage = SDLNet_SocketReady(client);
-          if (gotMessage != 0) {
-            get_coordinats_from_client_and_set_them();
-            key = 2;
-            game->set_board(r_x, r_y, key);
-            mouseclick = 0;
+      }
+    }
+    int activeSockets = SDLNet_CheckSockets(set, 10);
+    if (activeSockets != 0) {
+      int gotMessage = SDLNet_SocketReady(client);
+      if (gotMessage != 0) {
+        get_coordinats_from_client_and_set_them();
+        who_begins++;
+        if (who_begins == 1) {
+          key_server = 2; key_client = 1;
+        }
+        game->set_board(r_x, r_y, key_client);
+        mouseclick = 0;
+      }
+    }
+    game->create_board(*context);
+    if (isGameOver()) {
+      SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "GameOver", "Sorry, you lost.\nPress 'y', if you would like to play again, press 'q' or 'Esc' to quit.", context->get_screen());
+      gameover = 1;
+      quit = true;
+      bool acceptedDefeath = false;
+      while (!acceptedDefeath) {
+        if (SDL_PollEvent(&event)) {
+          switch (event.type) {
+          case SDL_KEYDOWN:
+            switch (event.key.keysym.sym) {
+            case SDLK_ESCAPE:
+            case SDLK_q:
+              acceptedDefeath = 1;
+              break;
+            case SDLK_y:
+              game->set_vector_to_null();
+              gameover = 0;
+              mouseclick = 0;
+              who_begins = 0;
+              quit = false;
+              run2();
+              break;
+            }
           }
         }
-        game->create_board(*context);
-        game->render(*context);
       }
+    }
+    game->render(*context);
+  }
+}
+
+void GameEngine::run() {
+  SDL_Event event;
+  game->render(*context);
+  while (!quit) {
+    client = SDLNet_TCP_Accept(server);
+    if (client) {
+      SDLNet_TCP_AddSocket(set, client);
+      run2();
     }
   }
 }
